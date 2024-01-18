@@ -133,7 +133,7 @@ function Authenticate(props) {
 
   const logOut = () => {
     props.setIsUserLoggedIn(false);
-    props.setOnlineUser({userName:"guest"})
+    props.setOnlineUser({onlineUsername:"guest"})
   };
   const checkUserInfo = () => {
     console.log(props.onlineUser);
