@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import TransactionCard from "../../components/Transactions";
 import UserInputSectionCard from "../../components/UserInputSectionCard";
 import "./TransactionsPage.css";
+
 function TransactionsPage(props) {
  
   const [showEditTransactions, setShowEditTransactions] = useState(false);

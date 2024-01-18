@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import firebase from "./firebase";
-import {BrowserRouter,Routes,Route,Link, useSearchParams, useFetcher, json} from "react-router-dom"
+import {BrowserRouter,Routes,Route,Link, useSearchParams, useFetcher} from "react-router-dom"
 import TransactionsPage from "./pages/TransactionsPage/TransactionsPage";
 import Authenticate from "./pages/Authenticate/Authenticate";
 import HomePage from "./pages/Home/HomePage";
@@ -19,26 +19,27 @@ function App() {
 //   })
 // },[])
 const [users,setUsers]=useState([{userName:"Loading..." }])
-const [lastOnlineUser,setLastOnlineUser]=useState(()=>{
-  return JSON.parse(localStorage.getItem("lastOnlineUser")) || {onlineUsername:"guest"}
-})
-const [onlineUser,setOnlineUser]=useState(lastOnlineUser)
-  const [isUserLoggedIn,setIsUserLoggedIn]=useState(()=>{
-    if(onlineUser.onlineUsername == "guest"){
-      console.log(onlineUser);
-     return false}
-    else{
-      console.log(onlineUser);
-      return true   }
-  })
-  
 
+
+
+  const [onlineUser,setOnlineUser]=useState({onlineUsername:"guest"})
+ 
+  const [isUserLoggedIn,setIsUserLoggedIn]=useState(false)
+  
+  useEffect(()=>{
+    if(onlineUser.onlineUsername=="guest"){
+      setIsUserLoggedIn(false)
+    }
+    else{
+      setIsUserLoggedIn(true)
+    }
+  },[])
   return (
     <BrowserRouter>
     <NavBar onlineUser={onlineUser} />
     <Routes>
       <Route path="/" element={<HomePage/>}/>
-      <Route path="/Authenticate" element={<Authenticate setLastOnlineUser={setLastOnlineUser} isUserLoggedIn={isUserLoggedIn} setIsUserLoggedIn={setIsUserLoggedIn} onlineUser={onlineUser} setOnlineUser={setOnlineUser} users={users} Y/>} />
+      <Route path="/Authenticate" element={<Authenticate isUserLoggedIn={isUserLoggedIn} setIsUserLoggedIn={setIsUserLoggedIn} onlineUser={onlineUser} setOnlineUser={setOnlineUser} users={users} Y/>} />
       <Route path="/Transactions"  element={<TransactionsPage isUserLoggedIn={isUserLoggedIn}/>}/>
     </Routes>
       

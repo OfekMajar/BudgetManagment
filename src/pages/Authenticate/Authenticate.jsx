@@ -23,7 +23,6 @@ import {
 //&
 import "./Authenticate.css";
 function Authenticate(props) {
-
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [tempUser, setTempUser] = useState({});
 
@@ -36,15 +35,10 @@ function Authenticate(props) {
       if (documentSnapshot.exists()) {
         // Document exists, you can access its data
         const documentData = documentSnapshot.data();
-        const onlineUsername = documentData.userName;
-        const onlineUseremail = documentData.userEmail;
-        const onlineUserrole = documentData.userRole;
-        props.setOnlineUser({
-          onlineUsername,
-          onlineUseremail,
-          onlineUserrole,
-        });
-        localStorage.setItem("lastOnlineUser",JSON.stringify({...props.onlineUser}))
+        const onlineUsername=documentData.userName
+        const onlineUseremail=documentData.userEmail
+        const onlineUserrole=documentData.userRole
+        props.setOnlineUser({onlineUsername,onlineUseremail,onlineUserrole});
         return documentData;
       } else {
         // Document does not exist
@@ -121,6 +115,7 @@ function Authenticate(props) {
             const uid = user.uid;
             getDocumentById("users", uid);
             props.setIsUserLoggedIn(true);
+
           } else {
             console.log("no user is signed in");
           }
@@ -137,9 +132,8 @@ function Authenticate(props) {
   };
 
   const logOut = () => {
-    props.setOnlineUser({ onlineUsername: "guest" });
-    localStorage.setItem("lastOnlineUser",JSON.stringify({userName: "guest" }))
-    
+    props.setIsUserLoggedIn(false);
+    props.setOnlineUser({userName:"guest"})
   };
   const checkUserInfo = () => {
     console.log(props.onlineUser);
@@ -148,7 +142,7 @@ function Authenticate(props) {
     <div>
       {props.isUserLoggedIn ? (
         <div>
-          welcome <h1>{props.onlineUser.onlineUsername}</h1>
+          welcome  <h1>{props.onlineUser.onlineUsername}</h1>
           <button onClick={checkUserInfo}>check my data</button>
           <button onClick={logOut}>logOut</button>
         </div>
