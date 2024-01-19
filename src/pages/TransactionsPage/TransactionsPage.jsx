@@ -3,17 +3,18 @@ import TransactionCard from "../../components/Transactions";
 import UserInputSectionCard from "../../components/UserInputSectionCard";
 import "./TransactionsPage.css";
 import db from "../../firebase"
-import {collection, doc, query} from "firebase/firestore"
+import {collection, doc, query,setDoc} from "firebase/firestore"
 import {useCollectionData} from "react-firebase-hooks/firestore"
+import { uid ,useUID } from 'react-uid';
 function TransactionsPage(props) {
-  const query= collection(db,"users",props.onlineUser.onlineUserUid,"transactions")
+  const path=`users/${props.onlineUser.onlineUserUid}/transactions`
+  const query= collection(db,path)
   
   const [docs,loading,error] =useCollectionData(query)
   console.log(docs);
   const [showEditTransactions, setShowEditTransactions] = useState(false);
   const [transactions, setTransactions] = useState(() => {
-    const storedData = JSON.parse(localStorage.getItem("userTransactions"));
-    return storedData || [];
+    return docs ;
   });
   const [formData, setformData] = useState({
     title: "Unknown",
@@ -28,12 +29,12 @@ function TransactionsPage(props) {
     formData[e.target.name] = e.target.value;
     setformData({ ...formData });
   };
-  const sumbitHandler = (e) => {
+  const sumbitHandler =async(e) => {
     e.preventDefault();
-    formData.id = Math.random() * 100000;
-    setTransactions([...transactions, { ...formData }]);
+    const transactionId = Math.random() * 1000000;
+    // const docRef=doc(db,path,transactionId)
+    // await setDoc(docRef,{formData})
     // console.log(doc(db,"users"));
-    localStorage.setItem("userTransactions", JSON.stringify(transactions));
   };
   const clearHandler = (e) => {
     setTransactions([]);
@@ -66,7 +67,7 @@ function TransactionsPage(props) {
           <th>title</th> <th>category</th> <th>amount</th> <th>type</th>
         </thead>
         <tbody>
-          {transactions.map((item, index) => {
+          {docs?.map((item, index) => {
             return (
               <TransactionCard
                 removeTransaction={removeTransaction}
