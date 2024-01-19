@@ -2,9 +2,14 @@ import { useEffect, useState } from "react";
 import TransactionCard from "../../components/Transactions";
 import UserInputSectionCard from "../../components/UserInputSectionCard";
 import "./TransactionsPage.css";
-
+import db from "../../firebase"
+import {collection, doc, query} from "firebase/firestore"
+import {useCollectionData} from "react-firebase-hooks/firestore"
 function TransactionsPage(props) {
- 
+  const query= collection(db,"users",props.onlineUser.onlineUserUid,"transactions")
+  
+  const [docs,loading,error] =useCollectionData(query)
+  console.log(docs);
   const [showEditTransactions, setShowEditTransactions] = useState(false);
   const [transactions, setTransactions] = useState(() => {
     const storedData = JSON.parse(localStorage.getItem("userTransactions"));
@@ -17,6 +22,7 @@ function TransactionsPage(props) {
     currency: "₪",
     type: "expense",  
   });
+  console.log();
 
   const changeHandler = (e) => {
     formData[e.target.name] = e.target.value;
@@ -26,6 +32,7 @@ function TransactionsPage(props) {
     e.preventDefault();
     formData.id = Math.random() * 100000;
     setTransactions([...transactions, { ...formData }]);
+    // console.log(doc(db,"users"));
     localStorage.setItem("userTransactions", JSON.stringify(transactions));
   };
   const clearHandler = (e) => {

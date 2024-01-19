@@ -38,7 +38,10 @@ function Authenticate(props) {
         const onlineUsername=documentData.userName
         const onlineUseremail=documentData.userEmail
         const onlineUserrole=documentData.userRole
-        props.setOnlineUser({onlineUsername,onlineUseremail,onlineUserrole});
+       
+        const onlineUserUid=documentRef.id
+        props.setOnlineUser({onlineUsername,onlineUseremail,onlineUserrole,onlineUserUid});
+       
         return documentData;
       } else {
         // Document does not exist

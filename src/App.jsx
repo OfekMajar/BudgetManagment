@@ -22,7 +22,7 @@ const [users,setUsers]=useState([{userName:"Loading..." }])
 
 
 
-  const [onlineUser,setOnlineUser]=useState({onlineUsername:"guest"})
+  const [onlineUser,setOnlineUser]=useState({onlineUsername:"guest",onlineUserUid:"0"})
  
   const [isUserLoggedIn,setIsUserLoggedIn]=useState(false)
   
@@ -40,7 +40,7 @@ const [users,setUsers]=useState([{userName:"Loading..." }])
     <Routes>
       <Route path="/" element={<HomePage/>}/>
       <Route path="/Authenticate" element={<Authenticate isUserLoggedIn={isUserLoggedIn} setIsUserLoggedIn={setIsUserLoggedIn} onlineUser={onlineUser} setOnlineUser={setOnlineUser} users={users} Y/>} />
-      <Route path="/Transactions"  element={<TransactionsPage isUserLoggedIn={isUserLoggedIn}/>}/>
+      <Route path="/Transactions"  element={<TransactionsPage onlineUser={onlineUser} isUserLoggedIn={isUserLoggedIn}/>}/>
     </Routes>
       
     </BrowserRouter>
