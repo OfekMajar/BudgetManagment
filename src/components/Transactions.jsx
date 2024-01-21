@@ -32,7 +32,7 @@ function TransactionCard(props){
 return (<tr> <td>{props.transaction.title}</td> 
             <td> <div className="iconTableBox">{props.transaction.category} <i className={`fa-solid fa-${categoryIcon}`}></i></div></td> 
             <td>{props.transaction.amount}{props.transaction.currency}</td>
-             <td><div className="iconTableBox">{props.transaction.type} <i className={`fa-solid fa-circle-${typeIcon}`}></i></div>{props.isEditAvailable?<button onClick={()=>{props.removeTransaction(props.transaction)}}>delete</button>:null}</td>
+             <td ><div className="typeTd"><div className="iconTableBox">{props.transaction.type} <i className={`fa-solid fa-circle-${typeIcon}`}></i></div>{props.isEditAvailable?<button onClick={(e)=>{props.removeTransaction(e,props.transaction)}}>delete</button>:null}</div></td>
              </tr>
 
 )
